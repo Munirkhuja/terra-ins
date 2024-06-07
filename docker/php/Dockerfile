@@ -2,7 +2,7 @@ FROM php:8.1-fpm as base
 
 RUN apt-get -y update && apt-get install -y \
     pgsql \
-    pdo_pgsql
+    pdo_pgsql \
     unzip\
     libzip-dev\
     libmcrypt-dev\
