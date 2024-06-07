@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  nginx:
+    restart: always
+    build: docker/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    links:
+      - php-fpm
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/terra-ins.conf/:/etc/nginx/conf.d/terra-ins.conf
+      - ./logs:/var/log
+    working_dir:
+      /var/www
+
+  php-fpm:
+    restart: always
+    build:
+      context: docker/php
+      target: dev
+    links:
+      - terra-ins-db-link
+    volumes:
+      - ./:/var/www
+    working_dir:
+      /var/www
+    environment:
+      PHP_IDE_CONFIG: 'serverName=terra-ins.local'
+
+  terra-ins-db-link:
+    restart: always
+    image: postgres:13
+    environment:
+      POSTGRES_DB: terra-ins
+      POSTGRES_USER: terra-ins
+      POSTGRES_PASSWORD: terra-ins
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+    driver: local
