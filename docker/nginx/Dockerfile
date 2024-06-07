@@ -2,6 +2,6 @@ FROM nginx:1.21
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
-ADD hamroh-gram-backend.conf /etc/nginx/conf.d/default.conf
+ADD terra-ins.conf /etc/nginx/conf.d/default.conf
 
 VOLUME /var/log/nginx
