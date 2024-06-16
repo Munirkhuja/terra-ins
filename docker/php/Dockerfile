@@ -1,8 +1,6 @@
 FROM php:8.1-fpm as base
 
 RUN apt-get -y update && apt-get install -y \
-    pgsql \
-    pdo_pgsql \
     unzip\
     libzip-dev\
     libmcrypt-dev\
@@ -24,6 +22,8 @@ RUN apt-get install -y postgis postgresql-13-postgis-3
 # Required if need manipulate images
 RUN docker-php-ext-configure exif \
     && docker-php-ext-install exif
+
+RUN docker-php-ext-install pdo_pgsql pgsql
 
 RUN docker-php-ext-install bcmath \
         calendar\
